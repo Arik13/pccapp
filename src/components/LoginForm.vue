@@ -1,7 +1,7 @@
 <template>
     <v-card>
         <v-card-title>
-            Sign Up
+            Login
         </v-card-title>
         <v-card-text>
             <v-form
@@ -17,40 +17,27 @@
                 ></v-text-field>
 
                 <v-text-field
-                    :rules="screenNameRules"
-                    v-model="screenName"
-                    label="Screen Name"
-                    required
-                ></v-text-field>
-
-                <v-text-field
-                    :rules="[validatePassword]"
+                    :rules="passwordRules"
                     v-model="password"
                     label="Password"
                     type="password"
                     required
-                ></v-text-field>
-
-                <v-text-field
-                    :rules="[validateConfirmPassword]"
-                    v-model="passwordConfirm"
-                    label="Confirm Password"
-                    type="password"
-                    required
+                    autocomplete="off"
                 ></v-text-field>
                 <v-btn
                     color="success"
                     class="mr-4"
                     @click="validate"
                 >
-                    Sign Up
+                    Login
                 </v-btn>
             </v-form>
         </v-card-text>
+
     </v-card>
 </template>
-<script>
 
+<script>
 export default {
     data() {
         return {
@@ -59,36 +46,24 @@ export default {
             emailRules: [
                 v => !!v || 'E-mail is required',
                 v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
-            ],
-            screenName: "",
-            screenNameRules: [
-                v => !!v || 'Name is required',
-                v => (v && v.length <= 10) || 'Name must be less than 10 characters',
+                v => (v.length >= 6) || 'E-mail must be 6 or more characters',
             ],
             password: "",
-            passwordConfirm: "",
+            passwordRules: [
+            ]
         }
     },
     methods: {
         submitForm() {
-            var signUpData = {
+            var loginData = {
                 email: this.email,
-                screenName: this.screenName,
                 password: this.password,
             };
-            this.$store.dispatch('signup', signUpData);
-
-        },
-        validatePassword() {
-            return true;
-        },
-        validateConfirmPassword() {
-            return true;
+            this.$store.dispatch('login', loginData);
         },
         validate() {
             if (this.$refs.form.validate()) {
                 this.submitForm();
-                this.reset();
             }
         },
         reset() {
@@ -97,6 +72,6 @@ export default {
         resetValidation() {
             this.$refs.form.resetValidation()
         },
-    }
+    },
 }
 </script>

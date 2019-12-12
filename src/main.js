@@ -9,7 +9,6 @@ axios.defaults.baseURL = 'https://pccdb-c1ffa.firebaseio.com/';
 
 Vue.config.productionTip = false
 
-
 new Vue({
   vuetify,
   router,
